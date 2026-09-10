@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXHUB — Ekosistem Aplikasi</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="icon-192.png">
+
+  <!-- SCRIPT IKLAN -->
+  <script>(function(s){s.dataset.zone='11587798',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  
+  <!-- FIREBASE SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
+  
+  <!-- EMAILJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* CSS CENTER HEADER & NAVBAR */
+    .navbar {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 15px;
+      background-color: #0f172a;
+      border-bottom: 1px solid #334155;
+    }
+
+    .nav-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .nav-menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 0;
+      margin: 4px 0 0 0;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-menu li a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-menu li a:hover {
+      color: #38bdf8;
+    }
+
+    .nav-saldo {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* CONTAINER MEDIA PROMO & IKLAN BARU */
+    .promo-ads-section {
+      width: 100%;
+      max-width: 480px;
+      margin: 16px auto 8px auto;
+      padding: 0 15px;
+    }
+
+    .promo-ads-card {
+      width: 100%;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px dashed #38bdf8;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      color: #94a3b8;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR UTAMA (RATAKAN TENGAH / CENTER) -->
+  <nav class="navbar">
+    <div class="nav-container">
+      
+      <!-- LOGO NEXHUB -->
+      <a href="#" class="logo">
+        <span class="logo-main" style="font-size: 20px; font-weight: bold; color: #fff;">⚡ NEXHUB</span>
+        <span class="logo-sub" style="font-size: 11px; color: #94a3b8;">Smart Business System</span>
+      </a>
+
+      <!-- STATUS LOGIN / SALDO -->
+      <div class="nav-saldo" id="navSaldo">
+        <button class="btn-login-nav" onclick="openLoginModal()">🔑 Masuk</button>
+      </div>
+
+      <!-- MENU NAVIGASI -->
+      <ul class="nav-menu">
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#apps">Aplikasi</a></li>
+        <li><a href="#upload" onclick="uploadAPK()">Upload APK</a></li>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <!-- WADAH MEDIA PROMO & IKLAN (MENGGANTIKAN TEKS DESKRIPSI & LIHAT KARYA) -->
+  <section id="home" class="promo-ads-section">
+    <div class="promo-ads-card">
+      <div style="font-size: 24px; margin-bottom: 6px;">📢</div>
+      <h3 style="color: #38bdf8; margin: 0 0 4px 0; font-size: 15px;">Space Media Promo & Iklan</h3>
+      <p style="font-size: 12px; color: #94a3b8; margin: 0;">Area ini siap diisi gambar banner, slider promo, atau iklan kamu.</p>
+    </div>
+  </section>
+
+  <!-- KARYA KAMI -->
+  <section id="apps" class="apps-section">
+    <h2>🎮 Karya Kami</h2>
+    <div class="apps-scroll-wrapper">
+      <button class="scroll-btn scroll-left" onclick="scrollApps(-1)">◀</button>
+      <div class="apps-scroll-container">
+        
+<!-- NEXHUB Chess -->
+<div class="app-card">
+  <img src="images/icon-chess.png" alt="NEXHUB Chess" class="app-icon">
+  <h3>NEXHUB CHESS</h3>
+  <p>Catur AI & Online PVP ♟️</p>
+  <button class="btn-detail" onclick="openDetail('chess')">📷 Lihat Tampilan</button>
+  <a href="https://nexhub-chess.netlify.app/" target="_blank" class="btn-app">Buka</a>
+</div>
+
+<!-- Crazy Fruit Win -->
+<div class="app-card">
+  <img src="images/icon-fruit.png" alt="Crazy Fruit Win" class="app-icon">
+  <h3>CRAZY FRUIT WIN</h3>
+  <p>Game seru penuh warna 🍉🍇</p>
+  <button class="btn-detail" onclick="openDetail('fruit')">📷 Lihat Tampilan</button>
+  <a href="https://fruitcrazywin.netlify.app/" target="_blank" class="btn-app">Buka</a>
+</div>
+
+
+        <!-- Nexhub Steam Kasir -->
+        <div class="app-card">
+          <img src="images/icon-steam.png" alt="NEXHUB STEAM KASIR" class="app-icon">
+          <h3>NEXHUB STEAM KASIR</h3>
+          <p>Sistem kelola bisnis cuci motor & mobil 🏍️🚗</p>
+          <button class="btn-detail" onclick="openDetail('steam')">📷 Lihat Tampilan</button>
+          <button class="btn-app locked-btn" onclick="showLockedNotice('NEXHUB STEAM KASIR')">
+            <span class="lock-icon">🔒</span>
+            Terkunci — Berbayar
+          </button>
+        </div>
+
+        <!-- Nexhub POS V1 -->
+        <div class="app-card">
+          <img src="images/icon-pos.png" alt="Nexhub POS V1" class="app-icon">
+          <h3>NEXHUB POS V1</h3><p>🏷️Price:100B 💎</p>
+          <p>Sistem kelola bisnis retail 🏪</p>
+          <button class="btn-detail" onclick="openDetail('pos')">📷 Lihat Tampilan</button>
+          <button class="btn-app locked-btn" onclick="showLockedNotice('NEXHUB POS V1')">
+            <span class="lock-icon">🔒</span>
+            Terkunci — Berbayar
+          </button>
+        </div>
+
+<!-- NEXHUB MEDIA PLAYER -->
+<div class="app-card">
+  <img src="images/icon-player.png" alt="Nexhub Media Player V1" class="app-icon">
+  <h3>NEXHUB MEDIA PLAYER</h3>
+  <p>🏷️Price: 25M 💎</p>
+  <p>Pemutar media sederhana & ringan 🎵</p>
+  <button class="btn-detail" onclick="openDetail('player')">📷 Lihat Tampilan</button>
+  
+  <!-- KINI LANGSUNG KE LINK ASLI / FILE APK -->
+  <button class="btn-app" onclick="prosesBeliAplikasi('NEXHUB MEDIA PLAYER', 25000000, 'https://drive.google.com/uc?export=download&id=1eNSYymQte8KPHnJ1Vh4F5fLcekBv0UII')">Buka</button>
+</div>
+
+
+        
+      </div>
+      <button class="scroll-btn scroll-right" onclick="scrollApps(1)">▶</button>
+    </div>
+  </section>
+
+  <!-- Tentang -->
+  <section id="about" class="about-section">
+    <h2>ℹ️ Tentang NEXHUB</h2>
+    <p>NEXHUB adalah rumah bagi karya-karya orisinal — lahir dari ketekunan, imajinasi, dan semangat untuk menciptakan sesuatu yang bermanfaat.</p>
+    <p>Dibuat dengan satu orang yang tak pernah berhenti berjuang.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 NEXHUB — Semua Hak Dilindungi</p>
+    <p>nexushubofficialid@gmail.com</p>
+    <p style="margin-top: 0.8rem; font-size: 0.85rem;">
+      <a href="tentang.html" style="color: #3b82f6; text-decoration: none;">Tentang</a> |
+      <a href="kontak.html" style="color: #3b82f6; text-decoration: none;">Kontak</a> |
+      <a href="privasi.html" style="color: #3b82f6; text-decoration: none;">Kebijakan Privasi</a>
+    </p>
+  </footer>
+
+  <!-- MODAL LOGIN / DAFTAR -->
+  <div id="loginModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 400px; width: 90%;">
+      <h3 id="loginTitle">🔑 Masuk ke NEXHUB</h3>
+      
+      <!-- Form Login -->
+      <div id="formLogin">
+        <input type="email" id="loginEmail" placeholder="📧 Email" class="modal-input">
+        <div style="position:relative; width:100%; margin:8px 0;">
+          <input type="password" id="loginPass" placeholder="🔒 Kata Sandi" class="modal-input" style="padding-right: 45px;">
+          <span onclick="togglePass('loginPass', 'eyeLogin')" id="eyeLogin" class="eye-toggle">👁️</span>
+        </div>
+        <button onclick="loginUser()" class="btn-primary-modal" style="background:#3b82f6;">Masuk</button>
+        
+        <p style="margin-top:12px;color:#f59e0b;font-size:14px;text-align:center;">
+          <a href="#" onclick="bukaResetModal(); return false;" style="color:#f59e0b;text-decoration:none;">🔑 Lupa Kata Sandi?</a>
+        </p>
+        
+        <p style="margin-top:10px;color:#94a3b8;font-size:14px;">Belum punya akun? <a href="#" onclick="switchToDaftar()" style="color:#3b82f6;text-decoration:none;">Daftar baru</a></p>
+      </div>
+      
+      <!-- Form Daftar -->
+      <div id="formDaftar" style="display:none;">
+        <input type="text" id="daftarNama" placeholder="👤 Nama Lengkap" class="modal-input">
+        <input type="email" id="daftarEmail" placeholder="📧 Email" class="modal-input">
+        <div style="position:relative; width:100%; margin:8px 0;">
+          <input type="password" id="daftarPass" placeholder="🔒 Kata Sandi (min 6 karakter)" class="modal-input" style="padding-right: 45px;">
+          <span onclick="togglePass('daftarPass', 'eyeDaftar')" id="eyeDaftar" class="eye-toggle">👁️</span>
+        </div>
+        <button onclick="daftarUser()" class="btn-primary-modal" style="background:#22c55e;">Daftar</button>
+        <p style="margin-top:15px;color:#94a3b8;font-size:14px;">Sudah punya akun? <a href="#" onclick="switchToLogin()" style="color:#3b82f6;text-decoration:none;">Masuk di sini</a></p>
+      </div>
+      
+      <button onclick="closeLoginModal()" class="btn-secondary-modal">✕ Tutup</button>
+    </div>
+  </div>
+
+  <!-- MODAL RESET KATA SANDI -->
+  <div id="resetModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 400px; width: 90%;">
+      <h3>🔑 Lupa Kata Sandi</h3>
+      <p style="color: #94a3b8; font-size: 14px; margin: 10px 0 20px 0;">Masukkan email akun Anda, kami akan mengirimkan link untuk membuat kata sandi baru.</p>
+      
+      <input type="email" id="resetEmail" placeholder="📧 Email akun Anda" class="modal-input">
+      <button onclick="kirimResetEmail()" class="btn-primary-modal" style="background:#f59e0b; color:#000;">📩 Kirim Link Reset</button>
+      
+      <p style="margin-top:15px;text-align:center;">
+        <a href="#" onclick="tutupResetModal(); return false;" style="color:#3b82f6;text-decoration:none;">← Kembali ke Login</a>
+      </p>
+      <button onclick="tutupResetModal()" class="btn-secondary-modal">✕ Tutup</button>
+    </div>
+  </div>
+
+  <!-- MODAL SUKSES DAFTAR -->
+  <div id="modalSukses" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 400px; width: 90%; text-align: center;">
+      <div style="font-size: 48px; margin-bottom: 10px;">✅</div>
+      <h3 style="margin-bottom: 20px; color: #22c55e;">Daftar Berhasil!</h3>
+      
+      <div style="background: #334155; padding: 16px; border-radius: 12px; margin-bottom: 15px; text-align: left;">
+        <p style="margin-bottom: 10px; font-size: 15px;">
+          <strong>👤 Nama:</strong> <span id="suksesNama"></span>
+        </p>
+        <p style="margin-bottom: 10px; font-size: 15px;">
+          <strong>💳 Alamat Wallet:</strong><br>
+          <span id="suksesWallet" class="wallet-badge" onclick="salinWalletDariModal()">—</span>
+          <button onclick="salinWalletDariModal()" class="btn-copy-modal">📋 Salin</button>
+        </p>
+        <p style="font-size: 15px;">
+          <strong>💎 Diamond Awal:</strong> <span style="color: #f59e0b; font-weight: 700;">0</span>
+        </p>
+      </div>
+      
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 15px;">💡 Klik tombol Salin untuk menyimpan alamat wallet!</p>
+      <button onclick="tutupModalSukses()" class="btn-primary-modal" style="background:#22c55e;">Masuk Sekarang →</button>
+    </div>
+  </div>
+
+  <!-- MODAL: APLIKASI TERKUNCI -->
+  <div id="lockedModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div style="font-size: 48px; margin-bottom: 15px;">🔒</div>
+      <h3>Aplikasi Terkunci</h3>
+      <p id="lockedAppName"></p>
+      
+      <div style="background: #334155; padding: 15px; border-radius: 10px; margin: 20px 0;">
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 10px;">💡 Cara mendapatkan aplikasi ini:</p>
+        <p style="color: #f8fafc; font-size: 15px; font-weight: 500;">
+          📧 Email: 
+          <a href="mailto:nexushubofficialid@gmail.com" style="color: #3b82f6; text-decoration: underline; font-weight: 600;">
+            nexushubofficialid@gmail.com
+          </a>
+        </p>
+        <p style="color: #94a3b8; font-size: 13px; margin-top: 8px;">
+          Sertakan nama aplikasi yang ingin dibeli. Saya akan balas segera! 📩
+        </p>
+      </div>
+      
+      <button onclick="closeLockedModal()" class="btn-primary-modal" style="background:#3b82f6;">Mengerti ✅</button>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL TAMPILAN (SLIDE HORISONTAL) -->
+  <div id="detailModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card detail-card">
+      <h3 id="detailTitle">📷 Tampilan Aplikasi</h3>
+      <div class="screenshot-gallery" id="detailGallery"></div>
+      <button onclick="closeDetailModal()" class="btn-close-detail">Tutup ✕</button>
+    </div>
+  </div>
+
+  <!-- MODAL PESAN MODULAR -->
+  <div id="pesanModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 360px; width: 90%; text-align: center;">
+      <div id="pesanIkon" style="font-size: 48px; margin-bottom: 12px;">✅</div>
+      <h3 id="pesanJudul" style="margin-bottom: 12px;">Berhasil!</h3>
+      <p id="pesanTeks" style="color: #cbd5e1; font-size: 15px; line-height: 1.5;"></p>
+      <div id="pesanAksi" style="margin-top: 18px;">
+        <button onclick="tutupPesanModal()" class="btn-primary-modal" style="background:#3b82f6;">Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT UTAMA MODULES -->
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/app-purchase.js"></script>
+  
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((reg) => console.log('Service Worker NEXHUB Aktif!', reg.scope))
+        .catch((err) => console.log('Registrasi Service Worker Gagal:', err));
+    });
+  }
+</script>
+
+  
+</body>
+</html>

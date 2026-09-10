@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔐 Admin — Upload Aplikasi | NEXHUB</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" href="images/icon-192.png">
+  <style>
+    .admin-container {
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .admin-container h1 {
+      text-align: center;
+      color: #f8fafc;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      color: #e2e8f0;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #334155;
+      color: #f8fafc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: 2px solid #3b82f6;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .btn-upload {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn-upload:hover { transform: scale(1.02); }
+    .status-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background: #334155;
+      color: #f8fafc;
+      display: none;
+    }
+    .status-box.success { border-left: 4px solid #22c55e; }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+      color: #94a3b8;
+      text-decoration: none;
+    }
+    .password-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    .password-box {
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 400px; width: 90%;
+      text-align: center;
+    }
+    .password-box h2 { color: #f8fafc; margin-bottom: 1.5rem; }
+    .password-box input {
+      width: 100%; padding: 12px;
+      border-radius: 8px; border: none;
+      background: #334155; color: white;
+      font-size: 1rem; margin-bottom: 1rem;
+      text-align: center;
+    }
+    .password-box button {
+      width: 100%; padding: 12px;
+      background: #3b82f6; color: white;
+      border: none; border-radius: 8px;
+      font-size: 1rem; cursor: pointer;
+    }
+    .hint {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      background: #1e293b;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔐 KATA SANDI -->
+  <div id="passwordModal" class="password-modal">
+    <div class="password-box">
+      <h2>🔐 Halaman Admin</h2>
+      <p style="color:#94a3b8; margin-bottom:1rem;">Masukkan kata sandi</p>
+      <input type="password" id="adminPassword" placeholder="Kata sandi...">
+      <button onclick="checkPassword()">Masuk 🔑</button>
+    </div>
+  </div>
+
+  <!-- 🔐 KONTEN ADMIN -->
+  <div id="adminContent" style="display: none;">
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">
+          <span class="logo-main">⚡ NEXHUB</span>
+          <span class="logo-sub">Halaman Admin</span>
+        </a>
+        <ul class="nav-menu">
+          <li><a href="index.html">← Kembali ke Beranda</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="admin-container">
+      <h1>📤 Tambah Aplikasi Baru</h1>
+      
+      <!-- ✅ NETLIFY FORM — OTOMATIS TANPA FIREBASE! -->
+      <form name="new-app" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="new-app">
+        <p class="bot-field" style="display:none;"><label>Jangan diisi: <input name="bot-field"></label></p>
+
+        <div class="form-group">
+          <label>📱 Nama Aplikasi *</label>
+          <input type="text" name="appName" required placeholder="Contoh: NEXHUB Chess">
+        </div>
+
+        <div class="form-group">
+          <label>📝 Deskripsi Singkat *</label>
+          <input type="text" name="appDesc" required placeholder="Contoh: Catur AI & Online PVP">
+        </div>
+
+        <div class="form-group">
+          <label>🖼️ Link Ikon (taruh di folder images/) *</label>
+          <input type="text" name="iconLink" required placeholder="Contoh: images/icon-chess.png">
+        </div>
+
+        <div class="form-group">
+          <label>📸 Link Screenshot *</label>
+          <input type="text" name="screenLink" required placeholder="Contoh: images/screenshot-chess.png">
+        </div>
+
+        <div class="form-group">
+          <label>📦 Link File APK / Halaman *</label>
+          <input type="text" name="apkLink" required placeholder="Contoh: https://ouo.io/xxxx atau link file">
+        </div>
+
+        <div class="form-group">
+          <label>💰 Status Aplikasi</label>
+          <select name="appStatus">
+            <option value="free">🟢 Gratis — Bisa langsung diunduh</option>
+            <option value="paid">🔒 Berbayar — Terkunci</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-upload">🚀 Kirim & Tambahkan</button>
+      </form>
+
+      <div class="hint">
+        💡 <strong>Cara pakainya:</strong><br>
+        1. Taruh gambar & APK di folder website<br>
+        2. Salin link/file path ke kolom di atas<br>
+        3. Klik tombol → data masuk ke Netlify<br>
+        4. Tambahkan kode kartu ke index.html secara manual ✅<br>
+        <em>Catatan: Untuk tampil otomatis, perlu setup database sederhana.</em>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Kembali ke Halaman Utama</a>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = '230887'; // 👈 UBAH SANDI DI SINI!
+
+    function checkPassword() {
+      const input = document.getElementById('adminPassword').value;
+      if (input === ADMIN_PASSWORD) {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('adminContent').style.display = 'block';
+      } else {
+        alert('❌ Kata sandi salah!');
+      }
+    }
+
+    document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+  </script>
+
+</body>
+</html>

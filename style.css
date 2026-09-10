@@ -1,0 +1,766 @@
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #334155;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --gold: #f59e0b;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --success: #34d399;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text);
+  line-height: 1.6;
+  padding-top: 130px; /* Memberikan ruang ekstra untuk Header Center yang Fixed */
+}
+
+/* NAVBAR & HEADER (RATAKAN TENGAH / CENTER) */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-container {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+  text-decoration: none;
+  text-align: center;
+  gap: 2px;
+}
+
+.logo-main {
+  font-size: 1.35rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.nav-saldo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn-login-nav {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.25s;
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  cursor: pointer;
+}
+
+.btn-login-nav:hover {
+  background: rgba(59, 130, 246, 0.35);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* NAVBAR CONTAINER & SALDO */
+.nav-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* AREA DERETAN SALDO / WALLET / DIAMOND / KELUAR */
+.nav-saldo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important; /* Kunci agar kalau tidak muat, otomatis rapi tanpa melebarkan layar */
+  gap: 6px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* KECILKAN UKURAN TIAP BADGE DI DALAM NAV-SALDO */
+.nav-saldo > * {
+  font-size: 0.75rem !important;
+  padding: 4px 8px !important;
+  white-space: nowrap;
+}
+
+/* SPESIFIK UNTUK BADGE WALLET/KARTU */
+.nav-saldo .wallet-badge,
+.nav-saldo [class*="wallet"] {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.7rem !important;
+}
+
+/* MENU NAVIGASI (Beranda, Aplikasi, dll) */
+.nav-menu {
+  display: flex !important;
+  list-style: none !important;
+  gap: 0.8rem !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 4px 0 0 0 !important;
+  padding: 0 !important;
+  flex-wrap: wrap !important; /* Agar kata 'Beranda' dst tidak terdorong keluar layar */
+}
+
+.nav-menu a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.82rem !important;
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+
+.nav-menu a:hover { 
+  color: var(--accent); 
+}
+
+/* PENYESUAIAN KHUSUS TAMPILAN HP (MOBILE) */
+@media (max-width: 768px) {
+  body {
+    padding-top: 130px !important;
+  }
+
+  .navbar {
+    padding: 0.5rem 0.3rem !important;
+  }
+
+  .nav-saldo {
+    gap: 4px !important;
+  }
+
+  /* Kecilkan ukuran tombol & teks di HP */
+  .nav-saldo button,
+  .nav-saldo div,
+  .nav-saldo span {
+    font-size: 0.7rem !important;
+    padding: 3px 6px !important;
+  }
+
+  .nav-menu {
+    gap: 0.5rem !important;
+  }
+
+  .nav-menu a {
+    font-size: 0.75rem !important;
+  }
+}
+
+
+
+/* SECTION PROMO & MEDIA IKLAN BARU */
+.promo-ads-section {
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto 15px auto;
+  padding: 0 1rem;
+}
+
+.promo-ads-card {
+  width: 100%;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px dashed #38bdf8;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  color: #94a3b8;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.3s ease;
+}
+
+.promo-ads-card:hover {
+  border-color: var(--accent);
+}
+
+
+/* KARYA APLIKASI */
+.apps-section { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 2.5rem; }
+.apps-section h2 { font-size: 1.6rem; text-align: center; margin-bottom: 1.5rem; color: var(--accent); font-weight: 700; }
+
+.apps-scroll-wrapper { position: relative; display: flex; align-items: center; }
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+}
+
+.scroll-btn:hover { background: var(--accent-hover); transform: translateY(-50%) scale(1.1); }
+.scroll-left { left: 5px; }
+.scroll-right { right: 5px; }
+
+.apps-scroll-container {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 50px;
+  scroll-behavior: smooth;
+  width: 100%;
+}
+
+.apps-scroll-container::-webkit-scrollbar { height: 6px; }
+.apps-scroll-container::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+.app-card {
+  flex: 0 0 260px;
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 340px;
+}
+
+.app-card:hover { transform: translateY(-6px); box-shadow: 0 12px 35px rgba(59, 130, 246, 0.15); }
+.app-icon { width: 72px; height: 72px; border-radius: 14px; margin-bottom: 1rem; }
+.app-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.app-card p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem; flex-grow: 1; }
+
+.btn-detail {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 6px 14px !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+  color: #93c5fd !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin-bottom: 10px !important;
+}
+
+.btn-detail:hover { border-color: var(--accent) !important; color: #ffffff !important; background: rgba(59, 130, 246, 0.2) !important; }
+
+.btn-app {
+  display: inline-block;
+  padding: 0.65rem 1.2rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background 0.25s;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+}
+
+.btn-app:hover { background: var(--accent-hover); }
+
+.locked-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+
+/* MODAL GENERAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+.modal-card {
+  background: var(--bg-secondary);
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: none;
+  background: #334155;
+  color: #fff;
+  font-size: 16px;
+}
+
+.eye-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+  opacity: 0.7;
+}
+
+.btn-primary-modal {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary-modal {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #334155;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.wallet-badge {
+  color: #34d399;
+  font-weight: 600;
+  font-family: monospace;
+  font-size: 16px;
+  background: rgba(52,211,153,0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.btn-copy-modal {
+  margin-left: 8px;
+  padding: 4px 10px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+
+/* MODAL DETAIL SCREENSHOT */
+.detail-card {
+  max-width: 90vw !important;
+  width: 650px !important;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px !important;
+}
+
+.screenshot-gallery {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 15px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  margin: 20px 0;
+  padding: 10px 5px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.screenshot-gallery::-webkit-scrollbar { height: 8px; }
+.screenshot-gallery::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+.screenshot-gallery::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+.screenshot-img {
+  flex: 0 0 85%;
+  max-width: 320px;
+  height: auto;
+  max-height: 55vh;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  scroll-snap-align: center;
+  transition: transform 0.2s ease;
+}
+
+.screenshot-img:hover { transform: scale(1.02); }
+
+.btn-close-detail {
+  align-self: center;
+  background: var(--bg-card) !important;
+  color: var(--text) !important;
+  padding: 8px 24px !important;
+  border-radius: 8px !important;
+  margin-top: 10px !important;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* ABOUT & FOOTER */
+.about-section { max-width: 650px; margin: 0 auto 3rem; padding: 0 1.5rem; text-align: center; }
+.about-section h2 { font-size: 1.6rem; margin-bottom: 1.2rem; color: var(--accent); font-weight: 700; }
+.about-section p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
+
+footer { text-align: center; padding: 2rem 1.5rem; color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.85rem; }
+
+
+/* TAMPILAN MOBILE / HP */
+@media (max-width: 768px) {
+  body {
+    padding-top: 140px !important; /* Tambah padding atas agar konten tidak tertutup header */
+  }
+
+  .navbar {
+    padding: 0.6rem 0.5rem !important;
+  }
+
+  .nav-container {
+    gap: 8px !important;
+  }
+
+  .logo-main {
+    font-size: 1.15rem !important;
+  }
+
+  .logo-sub {
+    font-size: 0.65rem !important;
+  }
+
+  .user-info-bar {
+    padding: 4px 10px !important;
+    gap: 6px !important;
+  }
+
+  .user-name, 
+  .user-wallet {
+    font-size: 0.75rem !important;
+  }
+
+  .nav-menu {
+    gap: 0.8rem !important;
+  }
+
+  .nav-menu a {
+    font-size: 0.8rem !important;
+  }
+
+  .promo-ads-section {
+    margin-top: 5px !important;
+  }
+
+  .app-card {
+    flex: 0 0 230px !important;
+  }
+}
+
+/* ========================================== */
+/* PERBAIKAN SALDO & WALLET BIAR GAK KEPOTONG (MOBILE) */
+/* ========================================== */
+@media (max-width: 768px) {
+
+  /* Bikin wadah saldo otomatis bungkus rapi di tengah */
+  .nav-saldo {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 4px 6px !important;
+    width: 100% !important;
+    padding: 0 5px !important;
+  }
+  
+  /* Perkecil badge Kartu Wallet & Saldo agar pas di layar HP */
+  .nav-saldo span,
+  .nav-saldo div,
+  .nav-saldo button {
+    font-size: 0.7rem !important;
+    padding: 2px 6px !important;
+  }
+  
+  /* Ringkas teks ID Kartu Wallet jika terlalu panjang */
+  .nav-saldo .wallet-badge,
+  .nav-saldo [class*="wallet"] {
+    max-width: 110px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  
+  /* Pastikan Menu (Beranda, Aplikasi, dll) tetap rapi di tengah */
+  .nav-menu {
+    margin-top: 6px !important;
+    gap: 0.5rem 0.8rem !important;
+  }
+  
+  .nav-menu a {
+    font-size: 0.78rem !important;
+  }
+}
+/* ========================================== */
+/* HEADER LAYOUT 3 DERET KE BAWAH (MOBILE & DESKTOP) */
+/* ========================================== */
+
+/* Sesuaikan padding atas body agar konten di bawahnya tidak tertutup header */
+body {
+  padding-top: 165px !important;
+}
+
+/* Navbar dibuat flex column penuh dan rapi di tengah */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  padding: 0.6rem 0.8rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.nav-container {
+  max-width: 500px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+}
+
+/* WADAH SALDO & WALLET: Dibuat vertikal (kebawah) */
+.nav-saldo {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  width: 100% !important;
+}
+
+/* BADGE KARTU WALLET (Baris Tersendiri) */
+.nav-saldo .wallet-badge,
+.nav-saldo [class*="wallet"] {
+  font-size: 0.72rem !important;
+  padding: 3px 10px !important;
+  background: rgba(52, 211, 153, 0.12) !important;
+  border: 1px solid rgba(52, 211, 153, 0.3) !important;
+  border-radius: 20px !important;
+  color: #34d399 !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+/* DERETAN SALDO, DIAMOND, & BUTTON (Horizontal Rapi di Tengah) */
+.nav-saldo .user-info-bar,
+.nav-saldo > div:not(.wallet-badge) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+}
+
+/* ========================================== */
+/* PAKSA HEADER TERTATA 3-4 BARIS K E B A W A H */
+/* ========================================== */
+
+body {
+  padding-top: 200px !important; /* Memberi ruang untuk header bertumpuk */
+}
+
+/* 1. KONTEN NAVBAR UTAMA BERBARIS KEBAWAH */
+.nav-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: 6px !important;
+}
+
+/* 2. AREA SALDO & USER (PAKSA SEMUA ELEMEN DIDALAMNYA KEBAWAH/WRAP) */
+#navSaldo,
+.nav-saldo {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: 6px !important;
+}
+
+/* Jika di dalam nav-saldo ada div/span wrapper pembungkus */
+#navSaldo > div,
+.nav-saldo > div,
+.user-info-bar {
+  display: flex !important;
+  flex-wrap: wrap !important; /* Supaya kalau nggak muat langsung ganti baris */
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  gap: 6px !important;
+}
+
+/* 3. PAKSA KARTU WALLET & NAMA USER MENJADI BARIS TERSENDIRI */
+#navSaldo .wallet-badge,
+#navSaldo [class*="wallet"],
+#navSaldo .user-name {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* 4. MENU NAVIGASI (Beranda, Aplikasi, Upload APK, dll) */
+.nav-menu {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  gap: 0.6rem 0.8rem !important;
+  margin-top: 4px !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+.nav-menu a {
+  font-size: 0.8rem !important;
+  white-space: nowrap !important;
+}
+
+/* ========================================== */
+/* KUNCI HALAMAN AGAR TIDAK BISA DI-ZOOM OUT / GOYANG KE KANAN-KIRI */
+/* ========================================== */
+
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important; /* Mencegah layar bisa digeser ke kanan/kiri */
+  position: relative;
+}
+
+/* Pastikan semua section & container tidak ada yang melebihi lebar HP */
+.navbar,
+.nav-container,
+.promo-ads-section,
+.apps-section,
+.about-section,
+footer {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Kunci slider aplikasi agar scroll-nya hanya di dalam area kartu saja */
+.apps-scroll-container {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+

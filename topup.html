@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="screen-orientation" content="portrait">
+  <title>Top Up — NEXHUB</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="icon-192.png">
+
+  <!-- FIREBASE SDK v11.0.1 -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
+
+  <style>
+    /* KUNCI BODY UTAMA AGAR TDK BOUNCE / SCROLL LAYAR LUAR */
+    * {
+      box-sizing: border-box;
+      -webkit-touch-callout: none;
+    }
+
+    input {
+      -webkit-user-select: auto !important;
+      user-select: auto !important;
+      font-size: 16px !important;
+    }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden !important;
+      background-color: #0f172a;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      width: 100%;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .topup-wrapper {
+      flex: 1;
+      width: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 12px 15px 30px;
+    }
+
+    .topup-container {
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .topup-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .topup-title {
+      color: #ffffff;
+      font-size: 18px;
+      margin: 0 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toggle-wrapper {
+      display: flex;
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 14px;
+      gap: 4px;
+    }
+
+    .toggle-tab {
+      flex: 1;
+      padding: 8px 2px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .toggle-tab.active {
+      background: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+
+    .toggle-tab.inactive {
+      background: transparent;
+      color: #94a3b8;
+    }
+
+    .section-group {
+      margin-bottom: 12px;
+    }
+
+    .section-label {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: 600;
+    }
+
+    .wallet-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .packages-wrapper {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 8px;
+    }
+
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .package-card {
+      background: #1e293b;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .package-card:hover {
+      border-color: #3b82f6;
+    }
+
+    .package-card.active {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.15);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+    }
+
+    .package-amount {
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .package-price {
+      color: #f59e0b;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .btn-pay {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      margin-top: 6px;
+    }
+
+    .btn-pay:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-back {
+      display: inline-block;
+      color: #94a3b8;
+      text-decoration: none;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .modal-card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid #334155;
+    }
+
+    .btn-primary-modal {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-switch-convert {
+      width: 100%;
+      background: #0f172a;
+      border: 1px dashed #38bdf8;
+      color: #38bdf8;
+      padding: 8px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-switch-convert:hover {
+      background: rgba(56, 189, 248, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR BAWAAN UTUH -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-main">⚡ NEXHUB</span>
+        <span class="logo-sub">Smart Business System</span>
+      </a>
+      <div class="nav-saldo" id="navSaldo"></div>
+    </div>
+  </nav>
+
+  <!-- WRAPPER ISI CONTENT -->
+  <div class="topup-wrapper">
+    <div class="topup-container">
+      <a href="index.html" class="btn-back">← Kembali ke Utama</a>
+
+      <div class="topup-card">
+        <h2 class="topup-title" id="pageTitle">💰 Isi Saldo</h2>
+
+        <!-- TOGGLE SLIDE (3 TAB) -->
+        <div class="toggle-wrapper">
+          <button class="toggle-tab active" id="tabSaldo" onclick="switchTab('saldo')">💰 Saldo</button>
+          <button class="toggle-tab inactive" id="tabDiamond" onclick="switchTab('diamond')">💎 Diamond</button>
+          <button class="toggle-tab inactive" id="tabConvert" onclick="switchTab('convert')">🔄 Tukar</button>
+        </div>
+
+        <!-- TAB 1: SALDO -->
+                <!-- TAB 1: SALDO -->
+        <div id="contentSaldo" class="tab-content active">
+          <div class="section-group">
+            <label class="section-label">1. Alamat Wallet Penerima</label>
+            <input type="text" id="walletSaldo" class="wallet-input" placeholder="Memuat Wallet..." readonly>
+          </div>
+
+          <div class="section-group">
+            <label class="section-label">2. Pilih Nominal Saldo</label>
+            <div class="packages-wrapper">
+              <div class="package-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="package-card" onclick="selectSaldo(10000, this)">
+                  <div class="package-amount">Rp 10.000</div>
+                  <div class="package-price">Klaim Iklan</div>
+                </div>
+                <div class="package-card" onclick="selectSaldo(50000, this)">
+                  <div class="package-amount">Rp 50.000</div>
+                  <div class="package-price">Klaim Iklan</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-pay" onclick="prosesTopupSaldo()">Lanjutkan Pembayaran</button>
+        </div>
+
+        <!-- TAB 2: DIAMOND -->
+        <div id="contentDiamond" class="tab-content">
+          <div class="section-group">
+            <label class="section-label">1. Alamat Wallet Penerima</label>
+            <input type="text" id="walletDiamond" class="wallet-input" placeholder="Memuat Wallet..." readonly>
+          </div>
+
+          <div class="section-group">
+            <label class="section-label">2. Pilih Paket Diamond</label>
+            <div class="packages-wrapper">
+              <div class="package-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="package-card" onclick="selectDiamond(10, this)">
+                  <div class="package-amount">💎 10</div>
+                  <div class="package-price">Klaim Iklan</div>
+                </div>
+                <div class="package-card" onclick="selectDiamond(50, this)">
+                  <div class="package-amount">💎 50</div>
+                  <div class="package-price">Klaim Iklan</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-pay" onclick="prosesTopupDiamond()">Lanjutkan Pembayaran</button>
+        </div>
+
+
+        <!-- TAB 2: DIAMOND -->
+        <div id="contentDiamond" class="tab-content">
+          <div class="section-group">
+            <label class="section-label">1. Alamat Wallet Penerima</label>
+            <input type="text" id="walletDiamond" class="wallet-input" placeholder="Memuat Wallet..." readonly>
+          </div>
+
+          <div class="section-group">
+            <label class="section-label">2. Pilih Paket Diamond</label>
+            <div class="packages-wrapper">
+              <div class="package-grid">
+                <div class="package-card" onclick="selectDiamond(10, this)">
+                  <div class="package-amount">💎 10</div>
+                  <div class="package-price">Paket Coba</div>
+                </div>
+                <div class="package-card" onclick="selectDiamond(50, this)">
+                  <div class="package-amount">💎 50</div>
+                  <div class="package-price">Paket Basic</div>
+                </div>
+                <div class="package-card" onclick="selectDiamond(100, this)">
+                  <div class="package-amount">💎 100</div>
+                  <div class="package-price">Paket Pro</div>
+                </div>
+                <div class="package-card" onclick="selectDiamond(500, this)">
+                  <div class="package-amount">💎 500</div>
+                  <div class="package-price">Paket Value</div>
+                </div>
+                <div class="package-card" onclick="selectDiamond(500000, this)">
+                  <div class="package-amount">💎 500.000</div>
+                  <div class="package-price" style="color: #34d399;">Paket Mega</div>
+                </div>
+                <div class="package-card" onclick="selectDiamond(1000000, this)">
+                  <div class="package-amount">💎 1.000.000</div>
+                  <div class="package-price">Paket Sultan</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-pay" onclick="prosesTopupDiamond()">Lanjutkan Pembayaran</button>
+        </div>
+
+        <!-- TAB 3: TUKAR DUA ARAH (DUAL-CONVERT) -->
+        <div id="contentConvert" class="tab-content">
+          
+          <!-- TOMBOL SWITCH ARAH KONVERSI -->
+          <button class="btn-switch-convert" onclick="switchConvertDirection()">
+            <span id="convertDirectionText">🔄 Mode: Diamond ➔ Saldo</span> (Klik untuk Ganti)
+          </button>
+
+          <div class="section-group">
+            <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; border-radius: 8px; padding: 10px; margin-bottom: 12px; text-align: center;">
+              <p id="labelSumberStok" style="color: #94a3b8; font-size: 11px; margin: 0 0 2px 0;">Stok Diamond Kamu:</p>
+              <h3 id="infoUserSource" style="color: #38bdf8; margin: 0; font-size: 18px;">💎 0</h3>
+            </div>
+
+            <label class="section-label" id="labelInputKonversi">1. Masukkan Jumlah Diamond</label>
+            <!-- INPUT DENGAN AUTO TITIK RIBUAN -->
+            <input type="text" inputmode="numeric" id="inputConvertValue" class="wallet-input" placeholder="0" oninput="hitungKonversi()" style="text-align: center; font-size: 18px !important;">
+          </div>
+
+          <div class="section-group">
+            <div style="background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 10px; text-align: center;">
+              <p id="labelRateTukar" style="color: #94a3b8; font-size: 11px; margin: 0 0 2px 0;">Nilai Tukar (💎 1 = Rp 1.000):</p>
+              <h3 id="hasilTukarOutput" style="color: #22c55e; margin: 0; font-size: 18px;">Rp 0</h3>
+            </div>
+          </div>
+
+          <button id="btnProsesKonversi" class="btn-pay" style="background: linear-gradient(90deg, #059669, #10b981);" onclick="prosesKonversiDuaArah()">Konversi Ke Saldo</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PESAN MODULAR -->
+  <div id="pesanModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 340px; width: 90%; text-align: center;">
+      <div id="pesanIkon" style="font-size: 42px; margin-bottom: 8px;">✅</div>
+      <h3 id="pesanJudul" style="margin: 0 0 8px 0; color: #fff;">Berhasil!</h3>
+      <p id="pesanTeks" style="color: #cbd5e1; font-size: 14px; line-height: 1.4; margin-bottom: 12px;"></p>
+      <div id="pesanAksi">
+        <button onclick="tutupPesanModal()" class="btn-primary-modal" style="background:#3b82f6;">Mengerti</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PEMANGGILAN FILE SCRIPT JS -->
+  <script src="js/auth.js"></script>
+  <script src="js/topup.js"></script>
+</body>
+</html>

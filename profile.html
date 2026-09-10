@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Saya — NEXHUB</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .profile-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; width: 100%; max-width: 450px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); position: relative; }
+    .btn-back { display: inline-flex; align-items: center; gap: 5px; color: #94a3b8; text-decoration: none; font-size: 14px; margin-bottom: 20px; font-weight: 500; transition: 0.2s; }
+    .btn-back:hover { color: #38bdf8; }
+    .profile-header { text-align: center; margin-bottom: 24px; }
+    
+    /* FOTO PROFIL CONTAINER */
+    .avatar-container { position: relative; width: 90px; height: 90px; margin: 0 auto 12px; }
+    .avatar-wrapper { width: 100%; height: 100%; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 3px solid #38bdf8; box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3); overflow: hidden; background-size: cover; background-position: center; }
+    .avatar-upload-btn { position: absolute; bottom: 0; right: 0; background: #2563eb; color: #fff; border: none; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: 0.2s; }
+    .avatar-upload-btn:hover { background: #1d4ed8; }
+
+    .profile-name { font-size: 20px; font-weight: bold; color: #ffffff; }
+    .profile-email { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+    
+    .wallet-box { background: #0f172a; border: 1px dashed #38bdf8; border-radius: 10px; padding: 12px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: 0.2s; }
+    .wallet-box:hover { background: #1e293b; }
+    .wallet-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+    .wallet-address { font-size: 15px; font-weight: bold; color: #38bdf8; margin-top: 4px; }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+    .stat-card { background: #0f172a; border: 1px solid #334155; padding: 14px; border-radius: 12px; text-align: center; }
+    .stat-label { font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+    .stat-value { font-size: 16px; font-weight: bold; }
+    .stat-saldo { color: #fbbf24; }
+    .stat-diamond { color: #38bdf8; }
+
+    .form-group { margin-bottom: 16px; text-align: left; }
+    .form-group label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
+    .form-input { width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px; outline: none; }
+    .form-input:focus { border-color: #2563eb; }
+
+    .btn-save { width: 100%; padding: 12px; background: #2563eb; border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .btn-save:hover { background: #1d4ed8; }
+    
+    .actions-flex { display: flex; gap: 10px; margin-top: 16px; }
+    .btn-action { flex: 1; padding: 10px; border-radius: 8px; text-decoration: none; text-align: center; font-size: 13px; font-weight: bold; border: none; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; }
+    .btn-topup { background: #16a34a; color: #fff; }
+    .btn-logout-profile { background: #ef4444; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <a href="index.html" class="btn-back">⬅️ Kembali ke Beranda</a>
+
+    <div class="profile-header">
+      <!-- 🟢 AREA FOTO PROFIL & TOMBOL UPLOAD -->
+      <div class="avatar-container">
+        <div class="avatar-wrapper" id="avatarWrapper">👤</div>
+        <button class="avatar-upload-btn" onclick="document.getElementById('fileInput').click()" title="Ganti Foto Profil">📷</button>
+        <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="prosesUploadFoto(event)">
+      </div>
+
+      <div class="profile-name" id="profNama">Memuat...</div>
+      <div class="profile-email" id="profEmail">...</div>
+    </div>
+
+    <!-- WALLET -->
+    <div class="wallet-box" onclick="salinWalletProfile()" title="Klik untuk menyalin">
+      <div class="wallet-title">ALAMAT WALLET</div>
+      <div class="wallet-address" id="profWallet">NEX-xxxx-xxxx</div>
+    </div>
+
+    <!-- STATS SALDO & DIAMOND -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">💰 Saldo Rp</div>
+        <div class="stat-value stat-saldo" id="profSaldo">Rp 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">💎 Diamond</div>
+        <div class="stat-value stat-diamond" id="profDiamond">0</div>
+      </div>
+    </div>
+
+    <!-- EDIT PROFIL -->
+    <form id="formEditProfile" onsubmit="simpanProfil(event)">
+      <div class="form-group">
+        <label>Ubah Nama Lengkap</label>
+        <input type="text" id="inputNama" class="form-input" required>
+      </div>
+      <button type="submit" class="btn-save">💾 Simpan Perubahan</button>
+    </form>
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions-flex">
+      <a href="topup.html" class="btn-action btn-topup">➕ Top Up</a>
+      <button class="btn-action btn-logout-profile" onclick="keluarProfileAkun()">🚪 Keluar</button>
+    </div>
+  </div>
+
+  <!-- FIREBASE SCRIPTS -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    let currentWalletText = '';
+
+    // Cek status Auth & Load Data User
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      db.ref('members/' + user.uid).on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+
+        document.getElementById('profNama').textContent = data.nama || 'Pengguna';
+        document.getElementById('profEmail').textContent = user.email;
+        
+        currentWalletText = data.alamatWallet || 'NEX-0000-0000';
+        document.getElementById('profWallet').textContent = currentWalletText;
+
+        document.getElementById('profSaldo').textContent = 'Rp ' + Number(data.saldo || 0).toLocaleString('id-ID');
+        document.getElementById('profDiamond').textContent = '💎 ' + Number(data.diamond || 0).toLocaleString('id-ID');
+
+        // Tampilkan foto profil jika ada di database
+        const avatarWrapper = document.getElementById('avatarWrapper');
+        if (data.fotoUrl) {
+          avatarWrapper.style.backgroundImage = `url('${data.fotoUrl}')`;
+          avatarWrapper.textContent = ''; // Hapus ikon default 👤
+        } else {
+          avatarWrapper.style.backgroundImage = 'none';
+          avatarWrapper.textContent = '👤';
+        }
+
+        if (!document.getElementById('inputNama').value) {
+          document.getElementById('inputNama').value = data.nama || '';
+        }
+      });
+    });
+
+    // 🟢 FUNGSI UPLOAD FOTO PROFIL (KOMpres & KONVERSI KE BASE64)
+    function prosesUploadFoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert('⚠️ Ukuran foto terlalu besar! Maksimal 2MB.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        const base64Image = e.target.result;
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+          // Simpan string foto ke Realtime Database
+          await db.ref('members/' + user.uid).update({
+            fotoUrl: base64Image
+          });
+          alert('✅ Foto profil berhasil diperbarui!');
+        } catch (err) {
+          alert('❌ Gagal mengunggah foto: ' + err.message);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Salin Wallet
+    function salinWalletProfile() {
+      if (!currentWalletText) return;
+      navigator.clipboard.writeText(currentWalletText).then(() => {
+        alert('✅ Alamat Wallet berhasil disalin!');
+      });
+    }
+
+    // Simpan Perubahan Nama Profil
+    async function simpanProfil(e) {
+      e.preventDefault();
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const namaBaru = document.getElementById('inputNama').value.trim();
+      if (!namaBaru) return alert('Nama tidak boleh kosong!');
+
+      try {
+        await db.ref('members/' + user.uid).update({
+          nama: namaBaru
+        });
+        alert('✅ Nama profil berhasil diperbarui!');
+      } catch (err) {
+        alert('❌ Gagal memperbarui profil: ' + err.message);
+      }
+    }
+
+    // Fungsi Keluar / Logout
+    function keluarProfileAkun() {
+      if (confirm('Apakah Anda yakin ingin keluar dari akun ini?')) {
+        auth.signOut().then(() => {
+          window.location.href = 'index.html';
+        });
+      }
+    }
+  </script>
+</body>
+</html>
